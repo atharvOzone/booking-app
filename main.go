@@ -10,11 +10,22 @@ func main() {
 	fmt.Printf("Welcome to %v booking application\n", conferenceName)
 	fmt.Printf("Total tickets: %v Remaining tickets: %v\n", tickets, remainingTickets)
 
-	var userName string
+	var firstName string
+	var lastName string
+	var email string
 	var userTickets uint
 
-	userName="Golang"
-	userTickets=50
+	fmt.Println("Enter your first name: ")
+	fmt.Scan(&firstName)
 
-	fmt.Printf("User %v booked %v tickes", userName, userTickets)
+	fmt.Println("Enter your last name: ")
+	fmt.Scan(&lastName)
+
+	fmt.Println("Enter your email address: ")
+	fmt.Scan(&email)
+
+	fmt.Println("Enter number of tickets to buy:")
+	fmt.Scan(&userTickets)
+
+	fmt.Printf("Thankyou %v %v for buying %v tickets. Tickets sent on %v.\n", firstName, lastName, userTickets, email)
 }
