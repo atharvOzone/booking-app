@@ -3,7 +3,6 @@ package main
 import (
 	"booking-app/helpers"
 	"fmt"
-	"sync"
 	"time"
 )
 
@@ -14,7 +13,7 @@ const tickets int = 50
 var remainingTickets uint = 50
 var bookingDetails = make([]UserData, 0)
 
-var wg = sync.WaitGroup{}
+// var wg = sync.WaitGroup{}
 
 type UserData struct {
 	firstName       string
@@ -27,13 +26,13 @@ func main() {
 
 	greetUsers()
 
-	// for {
+	for {
 		firstName, lastName, email, userTickets := getUserInputs()
 		isValidName, isValidEmail, isValidTickets := helpers.ValidateInputs(firstName, lastName, email, userTickets, remainingTickets)
 
 		if isValidEmail && isValidName && isValidTickets {
 			bookTickets(firstName, lastName, userTickets, email)
-			wg.Add(1)
+			// wg.Add(1)
 			go sendTickets(userTickets, firstName, lastName, email)
 			firstNames := printFirstNames()
 			fmt.Printf("These are the booking details %v\n", firstNames)
@@ -52,8 +51,8 @@ func main() {
 				fmt.Println("Invalid number of tickets, kindly enter >0 or <=50")
 			}
 		}
-		wg.Wait()
-	// }
+		// wg.Wait()
+	}
 }
 
 func greetUsers() {
@@ -105,10 +104,10 @@ func bookTickets(firstName string, lastName string, userTickets uint, email stri
 }
 
 func sendTickets(userTickets uint, firstName string, lastName string, email string) {
-	time.Sleep(10 * time.Second )
+	time.Sleep(10 * time.Second)
 	var ticket = fmt.Sprintf("%v tickets for %v %v", userTickets, firstName, lastName)
 	fmt.Println("###########")
 	fmt.Printf("Sending ticket: \n %v \nto email address %v \n", ticket, email)
 	fmt.Println("###########")
-	wg.Done()
+	// wg.Done()
 }
