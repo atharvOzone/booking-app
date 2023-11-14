@@ -1,15 +1,17 @@
 package main
 
 import (
-	"fmt"
-	"strings"
 	"booking-app/helpers"
+	"fmt"
+	"strconv"
 )
 
 var conferenceName = "Atharvs Conference"
+
 const tickets int = 50
+
 var remainingTickets uint = 50
-var bookingDetails []string
+var bookingDetails = make([]map[string]string, 0)
 
 func main() {
 
@@ -47,17 +49,16 @@ func greetUsers() {
 	fmt.Printf("Total tickets: %v Remaining tickets: %v\n", tickets, remainingTickets)
 }
 
-func printFirstNames() []string{
+func printFirstNames() []string {
 	firstNames := []string{}
 	for _, booking := range bookingDetails {
-		var names = strings.Fields(booking)
-		firstNames = append(firstNames, names[0])
+		firstNames = append(firstNames, booking["firstName"])
 	}
 
 	return firstNames
 }
 
-func getUserInputs() (string, string, string, uint){
+func getUserInputs() (string, string, string, uint) {
 	var firstName string
 	var lastName string
 	var email string
@@ -78,7 +79,13 @@ func getUserInputs() (string, string, string, uint){
 }
 
 func bookTickets(firstName string, lastName string, userTickets uint, email string) {
-	bookingDetails = append(bookingDetails, firstName+" "+lastName)
+	//create a user map
+	var userData = make(map[string]string)
+	userData["firstName"] = firstName
+	userData["lastName"] = lastName
+	userData["email"] = email
+	userData["numberOfTickets"] = strconv.FormatUint(uint64(userTickets), 10)
+	bookingDetails = append(bookingDetails, userData)
 	remainingTickets = remainingTickets - userTickets
 	fmt.Printf("Thankyou %v %v for buying %v tickets. Tickets sent on %v.\n", firstName, lastName, userTickets, email)
 	fmt.Printf("Tickets remaining for %v are %v\n", conferenceName, remainingTickets)
